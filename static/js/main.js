@@ -80,13 +80,15 @@ function checkIfReady() {
     }
 }
 
-// Function to load AI models
+// --- THIS IS THE UPDATED FUNCTION ---
+// Function to load AI models from a fast, public CDN
 async function loadModels() {
+    const MODEL_URL = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api/models/';
     try {
         await Promise.all([
-            faceapi.nets.tinyFaceDetector.loadFromUri('/static/models'),
-            faceapi.nets.faceLandmark68Net.loadFromUri('/static/models'),
-            faceapi.nets.faceRecognitionNet.loadFromUri('/static/models'),
+            faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+            faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+            faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
         ]);
         isModelsReady = true;
         checkIfReady(); // Check if camera is also ready
