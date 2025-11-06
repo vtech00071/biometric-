@@ -144,6 +144,7 @@ async function getFaceDescriptor() {
 
 if (registerButton) {
     registerButton.addEventListener('click', async () => {
+        // === THIS IS THE FIX ===
         const username = document.getElementById('username').value;
         if (!username) {
             showMessage("Please enter a username.", true);
@@ -222,6 +223,7 @@ if (registerButton) {
 
 if (loginButton) {
     loginButton.addEventListener('click', async () => {
+        // === THIS IS THE FIX ===
         const username = document.getElementById('username').value;
         if (!username) {
             showMessage("Please enter a username.", true);
