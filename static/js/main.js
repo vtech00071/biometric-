@@ -80,12 +80,16 @@ function checkIfReady() {
     }
 }
 
-// --- THIS IS THE NEW, MORE DETAILED FUNCTION ---
+// --- THIS IS THE UPDATED FUNCTION ---
+// Function to load AI models from our own server
 async function loadModels() {
-    const MODEL_URL = 'https://unpkg.com/face-api.js@0.22.2/weights';
+    // This is the local path to our models folder
+    const MODEL_URL = '/static/models';
     try {
         if (loadingArea) loadingArea.querySelector('p').textContent = 'Loading Face Detector...';
-        await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
+        // --- THIS IS THE FIX ---
+        // We are now loading the better (but larger) SSD Mobilenet v1 model
+        await faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL);
         
         if (loadingArea) loadingArea.querySelector('p').textContent = 'Loading Face Landmarks...';
         await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
@@ -121,6 +125,7 @@ async function startVideo() {
 loadModels();
 startVideo();
 
+// --- THIS IS THE UPDATED FUNCTION ---
 // Helper function to scan for a face
 async function getFaceDescriptor() {
     if (!isCameraReady || !isModelsReady) {
@@ -128,7 +133,9 @@ async function getFaceDescriptor() {
     }
     
     // Detect a single face
-    const detection = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions())
+    // --- THIS IS THE FIX ---
+    // We are now *using* the better SsdMobilenetv1 detector
+    const detection = await faceapi.detectSingleFace(video)
                                    .withFaceLandmarks()
                                    .withFaceDescriptor();
     
@@ -144,7 +151,6 @@ async function getFaceDescriptor() {
 
 if (registerButton) {
     registerButton.addEventListener('click', async () => {
-        // === THIS IS THE FIX ===
         const username = document.getElementById('username').value;
         if (!username) {
             showMessage("Please enter a username.", true);
@@ -223,7 +229,6 @@ if (registerButton) {
 
 if (loginButton) {
     loginButton.addEventListener('click', async () => {
-        // === THIS IS THE FIX ===
         const username = document.getElementById('username').value;
         if (!username) {
             showMessage("Please enter a username.", true);
