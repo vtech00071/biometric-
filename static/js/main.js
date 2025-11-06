@@ -80,22 +80,24 @@ function checkIfReady() {
     }
 }
 
-// --- THIS IS THE UPDATED FUNCTION ---
-// Function to load AI models from the UNPKG.COM CDN
+// --- THIS IS THE NEW, MORE DETAILED FUNCTION ---
 async function loadModels() {
-    // This is the CDN path for the weights for face-api.js@0.22.2
     const MODEL_URL = 'https://unpkg.com/face-api.js@0.22.2/weights';
     try {
-        await Promise.all([
-            faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
-            faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
-            faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
-        ]);
+        if (loadingArea) loadingArea.querySelector('p').textContent = 'Loading Face Detector...';
+        await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
+        
+        if (loadingArea) loadingArea.querySelector('p').textContent = 'Loading Face Landmarks...';
+        await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
+        
+        if (loadingArea) loadingArea.querySelector('p').textContent = 'Loading Face Recognition Model...';
+        await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
+        
         isModelsReady = true;
         checkIfReady(); // Check if camera is also ready
     } catch (err) {
         console.error("Model Loading Error:", err);
-        showMessage("Could not load AI models. Please refresh the page.", true);
+        showMessage(`Could not load AI models. Error: ${err.message}. Please refresh.`, true);
     }
 }
 
@@ -175,7 +177,7 @@ if (registerButton) {
             options.user.id = base64ToBuffer(options.user.id);
 
             // --- STEP 3: TRIGGER FINGERPRINT SCAN ---
-            const credential = await navigator.credentials..create({
+            const credential = await navigator.credentials.create({
                 publicKey: options
             });
 
