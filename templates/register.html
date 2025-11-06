@@ -32,6 +32,13 @@
             top: 0;
             left: 0;
         }
+        /* Make disabled button look correct */
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
     </style>
 </head>
 <body>
@@ -41,6 +48,10 @@
             <p>You must register both your Face and Fingerprint.</p>
 
             <div id="message-area" class="message-box"></div>
+            
+            <div id="loading-area" class="message-box">
+                <p class="message" style="background-color: #eee; color: #333;">Loading AI Models and Camera... Please wait.</p>
+            </div>
 
             <div class="form-group" style="grid-column: 1 / -1;">
                 <label for="username" style="display: block; text-align: left; margin-bottom: 5px; font-weight: 500;">Username:</label>
@@ -51,7 +62,7 @@
                 <video id="video" width="400" height="300" autoplay muted></video>
             </div>
 
-            <button id="register-button" class="btn btn-primary" style="width: 100%;">
+            <button id="register-button" class="btn btn-primary" style="width: 100%;" disabled>
                 <i class="fas fa-user-plus"></i> Start Registration
             </button>
             

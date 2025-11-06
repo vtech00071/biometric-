@@ -56,34 +56,70 @@ async function handleFetchResponse(response) {
     return response.json();
 }
 
-
-
 /* === AI Model & Camera Setup === */
 
 const video = document.getElementById('video');
+const registerButton = document.getElementById('register-button');
+const loginButton = document.getElementById('login-button');
+const loadingArea = document.getElementById('loading-area');
 
-// Load all AI models and then start the video
-Promise.all([
-    faceapi.nets.tinyFaceDetector.loadFromUri('/static/models'),
-    faceapi.nets.faceLandmark68Net.loadFromUri('/static/models'),
-    faceapi.nets.faceRecognitionNet.loadFromUri('/static/models'),
-]).then(startVideo);
+// Flags to track when setup is complete
+let isCameraReady = false;
+let isModelsReady = false;
+
+// This function will be called when camera AND models are ready
+function checkIfReady() {
+    if (isCameraReady && isModelsReady) {
+        // Everything is loaded! Enable the buttons.
+        if (registerButton) registerButton.disabled = false;
+        if (loginButton) loginButton.disabled = false;
+        // Hide the "Loading..." message
+        if (loadingArea) loadingArea.style.display = 'none';
+        // Show a ready message
+        showMessage("System is ready.", false);
+    }
+}
+
+// Function to load AI models
+async function loadModels() {
+    try {
+        await Promise.all([
+            faceapi.nets.tinyFaceDetector.loadFromUri('/static/models'),
+            faceapi.nets.faceLandmark68Net.loadFromUri('/static/models'),
+            faceapi.nets.faceRecognitionNet.loadFromUri('/static/models'),
+        ]);
+        isModelsReady = true;
+        checkIfReady(); // Check if camera is also ready
+    } catch (err) {
+        console.error("Model Loading Error:", err);
+        showMessage("Could not load AI models. Please refresh the page.", true);
+    }
+}
 
 // Function to start the webcam
 async function startVideo() {
     try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: {} });
         video.srcObject = stream;
+        // A small delay to ensure camera is fully initialized
+        video.onloadedmetadata = () => {
+            isCameraReady = true;
+            checkIfReady(); // Check if models are also ready
+        };
     } catch (err) {
         console.error("Camera Error:", err);
         showMessage("Could not access the camera. Please allow camera permissions.", true);
     }
 }
 
+// --- START LOADING EVERYTHING ON PAGE LOAD ---
+loadModels();
+startVideo();
+
 // Helper function to scan for a face
 async function getFaceDescriptor() {
-    if (!video.srcObject) {
-        throw new Error("Camera is not active.");
+    if (!isCameraReady || !isModelsReady) {
+        throw new Error("System is not ready yet. Please wait.");
     }
     
     // Detect a single face
@@ -100,8 +136,6 @@ async function getFaceDescriptor() {
 
 
 /* === 1. HIGH-SECURITY REGISTRATION LOGIC === */
-
-const registerButton = document.getElementById('register-button');
 
 if (registerButton) {
     registerButton.addEventListener('click', async () => {
@@ -179,10 +213,7 @@ if (registerButton) {
 }
 
 
-
 /* === 2. HIGH-SECURITY LOGIN LOGIC === */
-
-const loginButton = document.getElementById('login-button');
 
 if (loginButton) {
     loginButton.addEventListener('click', async () => {
