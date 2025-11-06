@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High-Security Login</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <script defer src="{{ url_for('static', filename='js/face-api.min.js') }}"></script>
+    
+    <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
+    
+    <style>
+        /* Styles to make the video feed look good */
+        #video-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 1.5rem auto 1rem; /* Spacing */
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+        video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <main class="main-content">
+        <div class="verification-container">
+            <h1>Login</h1>
+            <p>You must verify with both your Face and Fingerprint.</p>
+
+            <div id="message-area" class="message-box"></div>
+
+            <div class="form-group" style="grid-column: 1 / -1;">
+                <label for="username" style="display: block; text-align: left; margin-bottom: 5px; font-weight: 500;">Username:</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required style="width: 100%; padding: 0.8rem; border: 1px solid #ccc; border-radius: 8px;">
+            </div>
+
+            <div id="video-container">
+                <video id="video" width="400" height="300" autoplay muted></video>
+            </div>
+
+            <button id="login-button" class="btn btn-primary" style="width: 100%;">
+                <i class="fas fa-user-check"></i> Start Login
+            </button>
+            
+            <a href="{{ url_for('register') }}" style="display: block; margin-top: 2rem;">Don't have an account? Register.</a>
+        </div>
+    </main>
+</body>
+</html>

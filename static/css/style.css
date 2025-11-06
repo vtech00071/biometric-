@@ -1,0 +1,227 @@
+/* ===== Google Fonts (Poppins & Roboto) ===== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500&display=swap');
+
+/* ===== CSS Variables (Your Color Palette) ===== */
+:root {
+    /* Colors */
+    --accent-color: #04A1A1; /* A strong, modern teal */
+    --accent-color-hover: #037E7E;
+    --text-color: #222;
+    --text-color-light: #555;
+    --border-color: #ddd;
+    --bg-color-light: #f8f9fa;
+    --bg-color-white: #ffffff;
+    
+    /* Status Colors */
+    --success-color: #155724;
+    --success-bg: #d4edda;
+    --error-color: #721c24;
+    --error-bg: #f8d7da;
+
+    /* Fonts */
+    --body-font: 'Roboto', sans-serif;
+    --title-font: 'Poppins', sans-serif;
+
+    /* Effects */
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* ===== Base Styles ===== */
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--body-font);
+    font-size: 16px;
+    background-image: linear-gradient(120deg, var(--bg-color-light) 0%, #eef3f3 100%);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 1rem;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: var(--accent-color);
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+a:hover {
+    color: var(--accent-color-hover);
+    text-decoration: underline;
+}
+
+h1 {
+    font-family: var(--title-font);
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-color);
+}
+
+
+/* ===== Main Content & Container ===== */
+.main-content {
+    width: 100%;
+    max-width: 500px;
+}
+
+.verification-container {
+    background-color: var(--bg-color-white);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 2.5rem 3rem;
+    text-align: center;
+    border-top: 5px solid var(--accent-color);
+    
+    /* Animation: Fade in */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.verification-container p {
+    font-size: 1rem;
+    color: var(--text-color-light);
+    margin-bottom: 2rem;
+}
+
+/* ===== Form Group Styles ===== */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    font-family: var(--title-font);
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.form-group input {
+    font-family: var(--body-font);
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.form-group input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(4, 161, 161, 0.1);
+    outline: none;
+}
+
+
+
+/* ===== Button Styles ===== */
+.btn {
+    padding: 0.9rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-family: var(--title-font);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-block;
+    text-align: center;
+    width: 100%; /* Make buttons full-width */
+}
+
+.btn-primary {
+    background-color: var(--accent-color);
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(4, 161, 161, 0.2);
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-color-hover);
+    transform: translateY(-3px); /* Subtle lift */
+    box-shadow: 0 6px 20px rgba(4, 161, 161, 0.3);
+}
+
+.btn-primary:active {
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background-color: var(--bg-color-light);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background-color: #e2e6ea;
+}
+
+.btn i {
+    margin-right: 0.75rem; /* Space for icon */
+}
+
+/* ===== Message Area Styles ===== */
+#message-area {
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+/* We'll add these classes with JavaScript */
+.message {
+    padding: 0.8rem 1.25rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    text-align: left;
+    opacity: 0;
+    transform: translateY(-10px);
+    animation: popIn 0.3s ease-out forwards;
+}
+
+@keyframes popIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message.success {
+    background-color: var(--success-bg);
+    color: var(--success-color);
+}
+
+.message.error {
+    background-color: var(--error-bg);
+    color: var(--error-color);
+}
+
+
+
+/* ===== Responsive (Mobile) ===== */
+@media screen and (max-width: 500px) {
+    body {
+        padding: 0.5rem;
+    }
+
+    .verification-container {
+        padding: 2rem 1.5rem;
+    }
+
+    h1 {
+        font-size: 1.75rem;
+    }
+}
