@@ -81,9 +81,10 @@ function checkIfReady() {
 }
 
 // --- THIS IS THE UPDATED FUNCTION ---
-// Function to load AI models from a fast, public CDN
+// Function to load AI models from the UNPKG.COM CDN
 async function loadModels() {
-    const MODEL_URL = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api/models/';
+    // This is the CDN path for the weights for face-api.js@0.22.2
+    const MODEL_URL = 'https://unpkg.com/face-api.js@0.22.2/weights';
     try {
         await Promise.all([
             faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
@@ -174,7 +175,7 @@ if (registerButton) {
             options.user.id = base64ToBuffer(options.user.id);
 
             // --- STEP 3: TRIGGER FINGERPRINT SCAN ---
-            const credential = await navigator.credentials.create({
+            const credential = await navigator.credentials..create({
                 publicKey: options
             });
 
@@ -221,7 +222,7 @@ if (loginButton) {
     loginButton.addEventListener('click', async () => {
         const username = document.getElementById('username').value;
         if (!username) {
-            showMessage("Please enter your username.", true);
+            showMessage("Please enter a username.", true);
             return;
         }
         

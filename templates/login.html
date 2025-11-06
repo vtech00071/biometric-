@@ -7,7 +7,7 @@
     
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     
-    <script defer src="{{ url_for('static', filename='js/face-api.min.js') }}"></script>
+    <script defer src="https://unpkg.com/face-api.js@0.22.2/dist/face-api.min.js"></script>
     
     <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
     
@@ -20,7 +20,7 @@
             margin: 1.5rem auto 1rem; /* Spacing */
             border-radius: 8px;
             overflow: hidden;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
         }
         video {
             width: 100%;
@@ -49,7 +49,7 @@
 
             <div id="message-area" class="message-box"></div>
             
-            <div id="loading-area" class_ ="message-box">
+            <div id="loading-area" class="message-box">
                 <p class="message" style="background-color: #eee; color: #333;">Loading AI Models and Camera... Please wait.</p>
             </div>
 
